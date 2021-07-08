@@ -10,17 +10,15 @@ const todoItemsList = document.querySelector('#todo-items');
 //select each todo item
 const todoItem = document.querySelector('.item');
 
-
-//const dataId = Date.now();
-
 //store todos in this array
 let todos = [];
+
+
 
 //pull the value from the todo form
 todoForm.addEventListener('submit', function(e){
   e.preventDefault();
-  //console.log(todoInput.value);
-  
+    
   //add new todo
   const newTodoLi = document.createElement('li');
   newTodoLi.innerText = todoInput.value;
@@ -35,12 +33,10 @@ todoForm.addEventListener('submit', function(e){
 
   // push todos in the array
   todos.push(todoInput.value);
-  //console.log(todosArr);
-
-  store = window.localStorage;
-  store.setItem("todos", JSON.stringify(todos));
-  getTodos = JSON.parse(store.getItem("todos"));
+  console.log("todos array", todos);
   
+  //store in local storage
+  localStorage.setItem("todos", JSON.stringify(todos))
 
   //clear input form
   todoInput.value = '';
@@ -48,20 +44,26 @@ todoForm.addEventListener('submit', function(e){
 
 //listen for clicks on delete button and list item
 todoItemsList.addEventListener('click', function(e){
-  console.log(e);
+  console.log("Clicked in todoItemsList", e);
 
   //delete todo
   if(e.target.tagName === "BUTTON"){
+    e.target.parentElement.classList.add('removed')
+    todos.push(e.target);
+    todos.pop();
     e.target.parentElement.remove()
-    todosArr.splice(ataId, 1);
-    console.log(todosArr);
+    console.log("todos array after delete button", todos)
+    //store in local storage
+    localStorage.setItem("todos", JSON.stringify(todos))
   } 
+
   //add a line through for completed todo
   else if (e.target.tagName === "LI"){
     e.target.classList.toggle('checked');
+    todos.push(e.target);
+    todos.pop();
+    console.log("todos array after line through click", todos)
   }
 });
 
-
-
-  
+JSON.parse(localStorage.getItem("todos"));
